@@ -1,7 +1,7 @@
 ARG BUILD_PLATFORM=linux/amd64
 ARG RUNTIME_PLATFORM=linux/arm64
 
-FROM --platform=${BUILD_PLATFORM} debian:13.2 AS build
+FROM --platform=${BUILD_PLATFORM} debian:bookworm AS build
 ARG TARGET_ARCH=aarch64
 ARG NDK_VERSION=23
 
@@ -33,7 +33,7 @@ WORKDIR /app/build
 RUN cmake -DTARGET_ARCH=${TARGET_ARCH} ..
 RUN make -j$(nproc)
 
-FROM --platform=${RUNTIME_PLATFORM} debian:13.2
+FROM --platform=${RUNTIME_PLATFORM} debian:bookworm
 
 WORKDIR /app
 COPY --from=build /app/wrapper /app/wrapper
